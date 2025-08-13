@@ -16,10 +16,11 @@ on:
         default: "bookworm"
         type: choice
         options:
-          - jammy
-          - noble
+          - trixie
           - bookworm
           - bullseye
+          - noble
+          - jammy
       armbian_board:
         description: "Select device board."
         required: false
@@ -158,6 +159,7 @@ on:
           - s922x-gtking
           - s922x-gtkingpro-h
           - s922x-odroid-n2
+          - s922x-oes-plus
           - s922x-reva
           - s922x-ugoos-am6
           - seewo-sv21
@@ -176,7 +178,7 @@ on:
           - tvi3315a
           - vplus
           - wxy-oect
-          - wxy-oec-replaced
+          - wxy-oect-replaced
           - xiaobao
           - yskj
           - zcube1-max

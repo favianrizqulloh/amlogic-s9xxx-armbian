@@ -151,6 +151,7 @@ on:
           - s922x-gtking
           - s922x-gtkingpro-h
           - s922x-odroid-n2
+          - s922x-oes-plus
           - s922x-reva
           - s922x-ugoos-am6
           - seewo-sv21
@@ -169,7 +170,7 @@ on:
           - tvi3315a
           - vplus
           - wxy-oect
-          - wxy-oec-replaced
+          - wxy-oect-replaced
           - xiaobao
           - yskj
           - zcube1-max
@@ -313,7 +314,7 @@ jobs:
 
           # Get the release name of the rebuild armbian file
           set_release=""
-          ARR_RELEASE=("jammy" "noble" "bookworm" "bullseye")
+          ARR_RELEASE=("noble" "jammy" "trixie" "bookworm" "bullseye")
           i=1
           for r in ${ARR_RELEASE[*]}; do
               if [[ "${armbian_url}" == *"${r}"* ]]; then
