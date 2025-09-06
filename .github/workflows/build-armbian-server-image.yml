@@ -325,7 +325,7 @@ jobs:
           # Compile method and parameter description: https://docs.armbian.com/Developer-Guide_Build-Options
           cd build/
               ./compile.sh RELEASE=${{ inputs.set_release }} BOARD=odroidn2 BRANCH=current BUILD_MINIMAL=no INSTALL_HEADERS=yes NETWORKING_STACK="network-manager" \
-                           BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no INCLUDE_HOME_DIR=yes ENABLE_EXTENSIONS=mesa-vpu,initramfs-usb-gadget-ums,bcmdhd,bluetooth-hciattach,lsmod \
+                           BUILD_ONLY=default HOST=armbian BUILD_DESKTOP=no EXPERT=yes KERNEL_CONFIGURE=no INCLUDE_HOME_DIR=yes ENABLE_EXTENSIONS=mesa-vpu,initramfs-usb-gadget-ums,bcmdhd,lsmod \
                            COMPRESS_OUTPUTIMAGE="sha" SHARE_LOG=yes CONSOLE_AUTOLOGIN=no EXTRAWIFI=yes
           echo "status=success" >> ${GITHUB_OUTPUT}
 
