@@ -210,10 +210,11 @@ on:
       kernel_repo:
         description: "Set the kernel repository."
         required: false
-        default: "ophub/kernel"
+        default: "favianrizqulloh/sbc-kernels"
         type: choice
         options:
           - ophub/kernel
+          - favianrizqulloh/sbc-kernels
       kernel_usage:
         description: "Set the tags of the stable kernel."
         required: false
@@ -243,14 +244,15 @@ on:
       builder_name:
         description: "Set Armbian builder signature."
         required: false
-        default: "ophub"
+        default: "fav"
         type: choice
         options:
           - ophub
           - angel
+          - fav
 
 env:
-  TZ: Etc/UTC
+  TZ: Asia/Jakarta
 
 jobs:
   build:
@@ -273,7 +275,7 @@ jobs:
           sudo rm -f /swapfile /mnt/swapfile
           sudo -E apt-get -y update
           sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-          sudo -E apt-get -y install $(curl -fsSL https://tinyurl.com/ubuntu2204-build-armbian)
+          sudo -E apt-get -y install $(curl -fsSL https://raw.githubusercontent.com/ophub/amlogic-s9xxx-armbian/refs/heads/main/compile-kernel/tools/script/ubuntu2204-build-armbian-depends)
           sudo -E systemctl daemon-reload
           #sudo -E apt-get -y full-upgrade
           sudo -E apt-get -y autoremove --purge
@@ -282,7 +284,7 @@ jobs:
           sudo rm -rf ~/{.cargo,.dotnet,.rustup}
           sudo -E timedatectl set-timezone "${TZ}"
           sudo -E apt-get install -y ntpdate
-          sudo -E ntpdate pool.ntp.org
+          sudo -E ntpdate time.google.com
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Create simulated physical disk
@@ -311,7 +313,7 @@ jobs:
           armbian_buildpath="build/output/images"
           [[ -d "${armbian_buildpath}" ]] || mkdir -p "${armbian_buildpath}"
           ln -sf /builder/build ${GITHUB_WORKSPACE}/build
-          ln -sf /builder/build /home/runner/work/_actions/ophub/amlogic-s9xxx-armbian/main/build
+          ln -sf /builder/build /home/runner/work/_actions/favianrizqulloh/amlogic-s9xxx-armbian/main/build
 
           latest_version=$(curl -s \
                 -H "Accept: application/vnd.github+json" \
@@ -339,7 +341,7 @@ jobs:
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Rebuild Armbian [ ${{ inputs.set_release }} ]
-        uses: ophub/amlogic-s9xxx-armbian@main
+        uses: favianrizqulloh/amlogic-s9xxx-armbian@main
         if: ${{ steps.down.outputs.status }} == 'success' && !cancelled()
         with:
           build_target: armbian

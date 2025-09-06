@@ -4,7 +4,7 @@ ADD armbian-rootfs.tar.gz /
 RUN apt-get update && apt-get install -y tzdata ca-certificates gnupg2 && \
     rm -rf /var/lib/apt/lists/*
 
-ENV TZ=Etc/UTC
+ENV TZ=Asia/Jakarta
 RUN ln -snf /usr/share/zoneinfo/${TZ} /etc/localtime && \
     echo "${TZ}" > /etc/timezone
 

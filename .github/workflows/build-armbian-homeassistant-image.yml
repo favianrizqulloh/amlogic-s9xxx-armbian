@@ -210,10 +210,10 @@ on:
       kernel_repo:
         description: "Set the kernel repository."
         required: false
-        default: "ophub/kernel"
+        default: "favianrizqulloh/sbc-kernels"
         type: choice
         options:
-          - ophub/kernel
+          - favianrizqulloh/sbc-kernels
       kernel_usage:
         description: "Set the tags of the stable kernel."
         required: false
@@ -243,14 +243,15 @@ on:
       builder_name:
         description: "Set Armbian builder signature."
         required: false
-        default: "dy008"
+        default: "fav"
         type: choice
         options:
           - ophub
           - dy008
+          - fav
 
 env:
-  TZ: Etc/UTC
+  TZ: Asia/Jakarta
   ROOTFS_SCRIPT: compile-kernel/tools/script/docker/build_armbian_rootfs_file.sh
 
 jobs:
@@ -274,7 +275,7 @@ jobs:
           sudo rm -f /swapfile /mnt/swapfile
           sudo -E apt-get -y update
           sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-          sudo -E apt-get -y install $(curl -fsSL https://tinyurl.com/ubuntu2204-build-armbian)
+          sudo -E apt-get -y install $(curl -fsSL https://raw.githubusercontent.com/ophub/amlogic-s9xxx-armbian/refs/heads/main/compile-kernel/tools/script/ubuntu2204-build-armbian-depends)
           sudo -E systemctl daemon-reload
           #sudo -E apt-get -y full-upgrade
           sudo -E apt-get -y autoremove --purge
@@ -283,7 +284,7 @@ jobs:
           sudo rm -rf ~/{.cargo,.dotnet,.rustup}
           sudo -E timedatectl set-timezone "${TZ}"
           sudo -E apt-get install -y ntpdate
-          sudo -E ntpdate pool.ntp.org
+          sudo -E ntpdate time.google.com
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Create simulated physical disk
@@ -312,7 +313,7 @@ jobs:
           df -hT ${PWD}
           git clone -q --single-branch --depth=1 --branch=main https://github.com/armbian/build.git build
           ln -sf /builder/build ${GITHUB_WORKSPACE}/build
-          ln -sf /builder/build /home/runner/work/_actions/ophub/amlogic-s9xxx-armbian/main/build
+          ln -sf /builder/build /home/runner/work/_actions/favianrizqulloh/amlogic-s9xxx-armbian/main/build
           # 下载扩展的安装homeasssistant脚本
           wget -P ./build/extensions https://raw.githubusercontent.com/armbian/os/main/userpatches/extensions/docker-ce.sh
           wget -P ./build/extensions https://raw.githubusercontent.com/armbian/os/main/userpatches/extensions/ha.sh
@@ -358,7 +359,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Rebuild Armbian
-        uses: ophub/amlogic-s9xxx-armbian@main
+        uses: favianrizqulloh/amlogic-s9xxx-armbian@main
         if: ${{ steps.clean.outputs.status }} == 'success' && !cancelled()
         with:
           build_target: armbian
