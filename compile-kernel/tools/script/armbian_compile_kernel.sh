@@ -75,8 +75,8 @@ auto_kernel="true"
 # Set whether to apply custom kernel patches, options: [ true / false ]
 auto_patch="false"
 # Set custom signature for the kernel
-custom_name="-ophub"
-pkg_maintainer="ophub <noreply@ophub.org>"
+custom_name="-fav"
+pkg_maintainer="fav <fav@favian.my.id>"
 # Set the kernel compile object, options: [ dtbs / all ]
 package_list="all"
 # Set the compression format, options: [ gzip / lzma / xz / zstd ]
